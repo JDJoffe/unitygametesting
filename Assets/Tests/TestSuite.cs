@@ -6,10 +6,12 @@ using UnityEngine.TestTools;
 using NUnit.Framework;
 public class TestSuite 
 {
+   
     public GameObject game;
     private GameManager gameManager;
     private Player player;
-    [SetUp]
+   
+   [SetUp]
    public void  Setup()
     {
        
@@ -17,7 +19,7 @@ public class TestSuite
         GameObject prefab = Resources.Load<GameObject>("Prefabs/Game");
          game = Object.Instantiate(prefab);
         //get gamemanager
-        gameManager = GameManager.Instance;
+        gameManager = game.GetComponent<GameManager>();
         //get Player
         player = game.GetComponentInChildren<Player>();
     }
@@ -27,7 +29,6 @@ public class TestSuite
     {
         yield return new WaitForEndOfFrame();
 
-        //after we wait
         Assert.NotNull(game, "Make sure game prefab is working");
     }
 
@@ -39,7 +40,34 @@ public class TestSuite
         Assert.NotNull(player, "Player dont exist");
     }
 
+    [UnityTest]
+    public IEnumerator ItemCollideWithPlayer()
+    {
+        //  Item item = gameManager.itemManager.GetItem(0);
+        //  item.transform.position = player.transform.position;
 
+        GameObject itemPrefab = Resources.Load<GameObject>("Prefabs/Entities/Item");
+        GameObject item = Object.Instantiate(itemPrefab, player.transform.position, Quaternion.identity);
+
+        yield return new WaitForSeconds(.1f);
+        
+        Assert.IsTrue(item == null);
+    }
+
+    [UnityTest]
+    public IEnumerator ItemCollectedAndScoreAdded()
+    {
+        int oldScore = gameManager.score;
+        GameObject itemPrefab = Resources.Load<GameObject>("Prefabs/Entities/Item");
+        GameObject item = Object.Instantiate(itemPrefab, player.transform.position, Quaternion.identity);
+
+        yield return new WaitForFixedUpdate();
+        yield return new WaitForEndOfFrame();
+      
+        int newScore = gameManager.score +oldScore;
+
+        Assert.IsTrue(oldScore != newScore);
+    }
     [TearDown]
    public  void Teardown()
     {

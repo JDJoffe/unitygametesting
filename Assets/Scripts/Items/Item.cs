@@ -14,6 +14,7 @@ public class Item : MonoBehaviour
 
     public void Collect()
     {
+        GameManager.Instance.AddScore(1);
         // Run collect event
         onCollect.Invoke(this);
         // Destroy item

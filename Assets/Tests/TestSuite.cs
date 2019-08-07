@@ -57,16 +57,16 @@ public class TestSuite
     [UnityTest]
     public IEnumerator ItemCollectedAndScoreAdded()
     {
-        int oldScore = gameManager.score;
+       
         GameObject itemPrefab = Resources.Load<GameObject>("Prefabs/Entities/Item");
         GameObject item = Object.Instantiate(itemPrefab, player.transform.position, Quaternion.identity);
-
+        int oldScore = gameManager.score;
         yield return new WaitForFixedUpdate();
         yield return new WaitForEndOfFrame();
       
-        int newScore = gameManager.score +oldScore;
+        int newScore = gameManager.score;
 
-        Assert.IsTrue(oldScore != newScore);
+        Assert.IsTrue(oldScore <= newScore);
     }
     [TearDown]
    public  void Teardown()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using Mirror;
 public class Player : MonoBehaviour
 {
     public float speed = 10f, jump = 10f;

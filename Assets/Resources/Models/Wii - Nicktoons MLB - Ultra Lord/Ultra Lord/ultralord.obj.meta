@@ -11,7 +11,12 @@ ModelImporter:
     2300000: ultra
     3300000: ultra
     4300000: ultra
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ultra
+    second: {fileID: 2100000, guid: d3cf0313c5981134497f100b3d887503, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

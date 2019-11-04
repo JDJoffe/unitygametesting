@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Mirror;
+
 public class Player : MonoBehaviour
 {
     public float speed = 10f, jump = 10f;
     public LayerMask hitLayers;
     public float rayDistance = 10f;
     public bool isGrounded = false;
-    private Rigidbody rigid;
+    public Rigidbody rigid;
     #region Unity Events
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, transform.position + Vector3.down * rayDistance);
+        Gizmos.DrawWireSphere(transform.position, 2);
     }
     private void Start()
     {
@@ -22,9 +23,11 @@ public class Player : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Ray groundRay = new Ray(transform.position, Vector3.down);
-        isGrounded = Physics.Raycast(groundRay, rayDistance, hitLayers);
+        Ray groundRay = new Ray(transform.position,Vector3.zero);
+       
+         isGrounded = Physics.SphereCast(groundRay, 2);
     }
+   
     private void OnTriggerEnter(Collider col)
     {
         Item item = col.GetComponent<Item>();

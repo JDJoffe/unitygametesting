@@ -22,6 +22,7 @@ public class TestSuite
         player = game.GetComponentInChildren<Player>();
     }
     [UnityTest]
+    // check if game prefab is not null
     public IEnumerator GamePrefabLoaded()
     {
         yield return new WaitForEndOfFrame();
@@ -29,6 +30,7 @@ public class TestSuite
     }
 
     [UnityTest]
+    // check if player is not null
     public IEnumerator PlayerExists()
     {
         yield return new WaitForEndOfFrame();
@@ -36,6 +38,7 @@ public class TestSuite
     }
 
     [UnityTest]
+    // check if the item will collide with the player and destroy itself
     public IEnumerator ItemCollideWithPlayer()
     {   
         GameObject itemPrefab = Resources.Load<GameObject>("Prefabs/Entities/Item");
@@ -45,6 +48,7 @@ public class TestSuite
         Assert.IsTrue(item == null);
     }
     [UnityTest]
+    // check if the item animation plays and rotates object
     public IEnumerator ItemAnimPlay()
     {
         Vector3 pos = new Vector3(.5f, 1, 3.5f);
@@ -56,15 +60,17 @@ public class TestSuite
         Assert.IsTrue(newrot != prevrot);
     }
     [UnityTest]
+    // check if position has changed and x pos is greater than it was
     public IEnumerator PlayerMove()
     {
-        float prevpos = Vector3.Magnitude(player.transform.position);
+        float prevpos = (player.transform.position.x);
         player.rigid.AddForce(2f, 0, 0, ForceMode.VelocityChange);
         yield return new WaitForFixedUpdate();
-        float newpos = Vector3.Magnitude(player.transform.position);
-        Assert.IsTrue(newpos != prevpos);
+        float newpos = (player.transform.position.x);
+        Assert.IsTrue(newpos > prevpos);
     }
     [UnityTest]
+    // check if score increments when item is collided with
     public IEnumerator ItemCollectedAndScoreAdded()
     {
         GameObject itemPrefab = Resources.Load<GameObject>("Prefabs/Entities/Item");
@@ -73,9 +79,10 @@ public class TestSuite
         yield return new WaitForFixedUpdate();
         yield return new WaitForEndOfFrame();
         int newScore = gameManager.score;
-        Assert.IsTrue(oldScore <= newScore);
+        Assert.IsTrue(oldScore < newScore);
     }
     [TearDown]
+    // finish testing
     public void Teardown()
     {
         Object.Destroy(game);
